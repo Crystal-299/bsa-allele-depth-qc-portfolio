@@ -1,0 +1,13 @@
+demo-output/
+__pycache__/
+*.bam
+*.bai
+*.cram
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.vcf
+*.vcf.gz
+*.RData
+*.rds

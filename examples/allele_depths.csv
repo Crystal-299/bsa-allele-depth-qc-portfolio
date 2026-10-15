@@ -1,0 +1,6 @@
+chrom,position,ref,alt,high_ad,low_ad
+toy_chr1,100,A,G,"5,15","15,5"
+toy_chr1,200,C,T,"12,8","18,2"
+toy_chr1,300,G,A,"30,10","10,30"
+toy_chr1,400,T,C,"2,2","20,20"
+toy_chr2,100,A,C,"80,30","40,40"
