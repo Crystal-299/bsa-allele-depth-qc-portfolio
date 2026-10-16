@@ -16,7 +16,7 @@ python -m unittest discover -s tests -v
 
 预期：7 条虚构 VCF 记录中保留 6 条 PASS 双等位 SNP；5 条通过深度过滤；`toy_chr1:100` 的两池指数为 0.75/0.25，Δ=0.5；输出 `windows.csv`、`delta.svg`、`window_delta.svg`、`depth.svg` 和 QTLseqr 输入表。参数入口在 `examples/project.json`：两个池的样本/表型、群体背景、显隐性、等位方向、深度范围和窗口宽度。**群体/显隐性字段只记录解释前提，不自动判定因果。**
 
-**从 FASTQ 开始（Linux；需 fastp、BWA、samtools、GATK4）：**
+**从 FASTQ 开始（Linux；可先 `conda env create -f envs/bsa.yaml && conda activate bsa-workflow`）：**
 
 ```bash
 python scripts/make_toy_fastq.py

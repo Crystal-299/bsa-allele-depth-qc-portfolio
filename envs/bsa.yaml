@@ -1,0 +1,10 @@
+name: bsa-workflow
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - fastp
+  - bwa=0.7.18
+  - samtools
+  - gatk4=4.6.2.0
