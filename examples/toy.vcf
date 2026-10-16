@@ -1,0 +1,12 @@
+##fileformat=VCFv4.2
+##contig=<ID=toy_chr1,length=1000>
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allele depths">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	High	Low
+toy_chr1	100	.	A	G	60	PASS	.	GT:AD	0/1:5,15	0/1:15,5
+toy_chr1	150	.	C	T	60	PASS	.	GT:AD	0/1:7,13	0/1:13,7
+toy_chr1	220	.	G	A	60	PASS	.	GT:AD	0/1:6,14	0/1:12,8
+toy_chr1	350	.	T	C	60	PASS	.	GT:AD	0/1:11,9	0/1:10,10
+toy_chr1	500	.	A	C	60	PASS	.	GT:AD	0/1:2,3	0/1:15,5
+toy_chr1	650	.	A	G	60	LowQual	.	GT:AD	0/1:5,15	0/1:15,5
+toy_chr1	780	.	C	G	60	PASS	.	GT:AD	0/1:12,8	0/1:11,9

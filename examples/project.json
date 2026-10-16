@@ -1,0 +1,12 @@
+{
+  "high_sample": "High",
+  "low_sample": "Low",
+  "high_phenotype": "affected",
+  "low_phenotype": "unaffected",
+  "population": "F2",
+  "inheritance": "recessive",
+  "trait_allele_phase": "unknown",
+  "min_bulk_depth": 10,
+  "max_bulk_depth": 100,
+  "window_bp": 100
+}

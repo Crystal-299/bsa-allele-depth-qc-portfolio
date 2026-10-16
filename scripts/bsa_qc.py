@@ -5,7 +5,7 @@ import csv
 from pathlib import Path
 
 FIELDS = ("chrom", "position", "ref", "alt", "high_ad", "low_ad")
-OUTPUT = ("chrom", "position", "ref", "alt", "high_depth", "low_depth",
+OUTPUT = ("chrom", "position", "ref", "alt", "high_ad", "low_ad", "high_depth", "low_depth",
           "high_snp_index", "low_snp_index", "delta_snp_index", "status")
 
 
@@ -46,6 +46,7 @@ def run(source, destination, minimum, maximum):
             l_index = l_alt / l_total if l_total else None
             rows.append({"chrom": record["chrom"], "position": position,
                          "ref": record["ref"], "alt": record["alt"],
+                         "high_ad": record["high_ad"], "low_ad": record["low_ad"],
                          "high_depth": h_total, "low_depth": l_total,
                          "high_snp_index": f"{h_index:.6f}" if h_index is not None else "",
                          "low_snp_index": f"{l_index:.6f}" if l_index is not None else "",

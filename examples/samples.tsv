@@ -1,0 +1,3 @@
+sample	bulk	individuals	ploidy	r1	r2
+High	high	2	2	tests/toy/High_R1.fq.gz	tests/toy/High_R2.fq.gz
+Low	low	2	2	tests/toy/Low_R1.fq.gz	tests/toy/Low_R2.fq.gz
