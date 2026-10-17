@@ -4,7 +4,7 @@
 
 - `examples/samples.tsv`: exactly one high-phenotype and one low-phenotype bulk in this minimal example. Columns are `sample,bulk,individuals,ploidy,r1,r2`. `individuals × ploidy` is passed to GATK HaplotypeCaller as pooled sample ploidy; this follows [GATK's option definition](https://gatk.broadinstitute.org/hc/en-us/articles/360036889312-HaplotypeCaller), but large pooled ploidy has practical genotyping limits and must be reviewed.
 - `examples/project.json`: VCF bulk sample names, high/low phenotype labels, population (`F2`, `BC1`, `RIL`, `F1`, or `unknown`), inheritance (`dominant`, `recessive`, `unknown`), trait-allele phase (`high_ALT`, `high_REF`, `unknown`), depth bounds and window width. These fields make assumptions **visible**, not automatically correct. Population/inheritance are not used to invent a causal locus.
-- Joint VCF: `#CHROM` header with the named bulk samples and per-sample `FORMAT/AD=REF,ALT`. Only `PASS` biallelic A/C/G/T SNPs with both ADs are used by the Python example. Multiallelics, indels, missing AD, and filtered calls are counted as skipped. For real data, inspect genotype quality, mapping quality, strand bias, duplication and missingness **before** deciding site filters.
+- Joint VCF: `#CHROM` header with the named bulk samples and per-sample `FORMAT/AD=REF,ALT`. By default only `PASS` biallelic A/C/G/T SNPs with both ADs are used. `--allow-unfiltered` can include `FILTER=.` sites from a callset to which no site filter was applied; it does **not** certify quality. Multiallelics, indels, missing AD, and failing filter calls are skipped. For real data, inspect genotype quality, mapping quality, strand bias, duplication and missingness **before** deciding site filters.
 
 ## 2. Raw reads to VCF / 原始数据到变异
 

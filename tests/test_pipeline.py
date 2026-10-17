@@ -9,6 +9,22 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class PipelineTest(unittest.TestCase):
+    def test_unfiltered_sites_require_opt_in(self):
+        scratch = ROOT / "demo-output"
+        scratch.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as folder:
+            out = Path(folder)
+            text = (ROOT / "examples/toy.vcf").read_text(encoding="utf-8")
+            (out / "unfiltered.vcf").write_text(text.replace("60\tPASS\t", "60\t.\t", 1), encoding="utf-8")
+            base = [sys.executable, str(ROOT / "scripts/vcf_to_ad.py"), str(out / "unfiltered.vcf"),
+                    str(ROOT / "examples/project.json")]
+            subprocess.run([*base, str(out / "strict.csv")], check=True, capture_output=True)
+            subprocess.run([*base, str(out / "inclusive.csv"), "--allow-unfiltered"], check=True, capture_output=True)
+            with (out / "strict.csv").open(newline="", encoding="utf-8") as stream:
+                self.assertEqual(len(list(csv.DictReader(stream))), 5)
+            with (out / "inclusive.csv").open(newline="", encoding="utf-8") as stream:
+                self.assertEqual(len(list(csv.DictReader(stream))), 6)
+
     def test_toy_vcf_to_plots(self):
         scratch = ROOT / "demo-output"
         scratch.mkdir(exist_ok=True)

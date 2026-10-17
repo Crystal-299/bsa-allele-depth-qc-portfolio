@@ -22,10 +22,11 @@ python -m unittest discover -s tests -v
 python scripts/make_toy_fastq.py
 python scripts/validate_upstream.py tests/toy/reference.fa examples/samples.tsv
 bash workflow/upstream.sh tests/toy/reference.fa examples/samples.tsv tests/toy/upstream
-python scripts/vcf_to_ad.py tests/toy/upstream/variants/snps.vcf.gz examples/project.json demo-output/upstream_ad.csv
+python scripts/vcf_to_ad.py tests/toy/upstream/variants/snps.vcf.gz examples/project.json demo-output/upstream_ad.csv --allow-unfiltered
 ```
 
 样本表列为 `sample, bulk, individuals, ploidy, r1, r2`；真实分析须替换成**获授权且版本匹配**的参考基因组和 FASTQ，先审查 fastp、比对、重复率及变异过滤。此 FASTQ→GATK 段在当前 Windows 环境**未实跑**，玩具数据也不保证能产生有意义的候选区段。下游小样例与输入检查已运行通过。QTLseqr 的 G′/F2 区间统计仅适用于合适的真实设计和足够 SNP，不在小样例中声称显著性。[局限](LIMITATIONS.md)。
+`--allow-unfiltered` 仅允许读取 GATK 未施加位点过滤时的 `FILTER=.` 记录，**不是质量合格声明**；正式分析应先设定并记录合适的过滤规则。
 
 ## English
 

@@ -9,13 +9,13 @@ from pathlib import Path
 FIELDS = ("chrom", "position", "ref", "alt", "high_ad", "low_ad")
 
 
-def run(vcf: Path, config: Path, output: Path):
+def run(vcf: Path, config: Path, output: Path, allow_unfiltered=False):
     cfg = json.loads(config.read_text(encoding="utf-8"))
     high, low = cfg["high_sample"], cfg["low_sample"]
     if not high or not low or high == low:
         raise ValueError("high_sample and low_sample must name different VCF samples")
     opener = gzip.open if vcf.suffix == ".gz" else open
-    rows, skipped, header = [], 0, None
+    rows, skipped, unfiltered, header = [], 0, 0, None
     with opener(vcf, "rt", encoding="utf-8") as stream:
         for line_no, line in enumerate(stream, 1):
             if line.startswith("##"):
@@ -33,9 +33,11 @@ def run(vcf: Path, config: Path, output: Path):
             if len(parts) != len(header):
                 raise ValueError(f"line {line_no}: VCF column count mismatch")
             chrom, pos, _, ref, alt, _, filt, _, fmt = parts[:9]
-            if filt != "PASS" or len(ref) != 1 or len(alt) != 1 or alt not in "ACGT" or ref not in "ACGT":
+            if (filt != "PASS" and not (allow_unfiltered and filt == ".")) or len(ref) != 1 or len(alt) != 1 or alt not in "ACGT" or ref not in "ACGT":
                 skipped += 1
                 continue
+            if filt == ".":
+                unfiltered += 1
             keys = fmt.split(":")
             if "AD" not in keys:
                 skipped += 1
@@ -63,7 +65,7 @@ def run(vcf: Path, config: Path, output: Path):
         writer = csv.DictWriter(stream, fieldnames=FIELDS)
         writer.writeheader()
         writer.writerows(rows)
-    print(f"retained={len(rows)} skipped={skipped} output={output}")
+    print(f"retained={len(rows)} skipped={skipped} unfiltered_included={unfiltered} output={output}")
 
 
 def main():
@@ -71,9 +73,10 @@ def main():
     parser.add_argument("vcf", type=Path)
     parser.add_argument("config", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--allow-unfiltered", action="store_true", help="include FILTER=. sites from an unfiltered callset; review QC before interpretation")
     args = parser.parse_args()
     try:
-        run(args.vcf, args.config, args.output)
+        run(args.vcf, args.config, args.output, args.allow_unfiltered)
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
         parser.exit(2, f"error: {exc}\n")
 
